@@ -1,7 +1,7 @@
 module.exports = (app) => {
     const App = require("../controllers/app.controller.js");
   
-    app.post("/create", App.create);
+    app.post("/create", App.ajouter);
   
     app.get("/get-all", App.findAll);
   

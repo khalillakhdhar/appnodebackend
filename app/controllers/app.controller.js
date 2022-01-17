@@ -1,10 +1,13 @@
-const App = require("../model/app.model.js");
+const ApInst = require("../model/ApInst.model.js");
 
 // Create and Save a new Message
-exports.create = (req, res) => {
-  const message = new App({
+exports.ajouter = (req, res) => {
+  const message = new ApInst(
+    {
     message: req.body.message,
-  });
+    
+  }
+  );
   message
     .save()
     .then((data) => {
@@ -20,7 +23,7 @@ exports.create = (req, res) => {
 
 // Retrieve all messages from the database.
 exports.findAll = (req, res) => {
-  App.find()
+  ApInst.find()
     .then((data) => {
       res.send(data);
     })
@@ -34,7 +37,7 @@ exports.findAll = (req, res) => {
 
 // Find a single message with a messageId
 exports.findOne = (req, res) => {
-  App.findById(req.params.messageId)
+  ApInst.findById(req.params.messageId)
     .then((data) => {
       if (!data) {
         return res.status(404).send({
@@ -44,7 +47,7 @@ exports.findOne = (req, res) => {
       res.send(data);
     })
     .catch((err) => {
-      if (err.kind === "ObjectId") {
+      if (err.kind === "test") {
         return res.status(404).send({
           message: "Message not found with id " + req.params.messageId,
         });
@@ -57,7 +60,7 @@ exports.findOne = (req, res) => {
 
 // Update a message identified by the messageId in the request
 exports.update = (req, res) => {
-  App.findByIdAndUpdate(
+  ApInst.findByIdAndUpdate(
     req.params.messageId,
     {
       message: req.body.message,
@@ -86,7 +89,7 @@ exports.update = (req, res) => {
 
 // Delete a message with the specified messageId in the request
 exports.delete = (req, res) => {
-  App.findByIdAndRemove(req.params.messageId)
+  ApInst.findByIdAndRemove(req.params.messageId)
     .then((data) => {
       if (!data) {
         return res.status(404).send({
