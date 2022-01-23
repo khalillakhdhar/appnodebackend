@@ -39,9 +39,32 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   ApInst.findById(req.params.messageId)
     .then((data) => {
+      
       if (!data) {
+
         return res.status(404).send({
           message: "Message not found with id " + req.params.messageId,
+        });
+      }
+      res.send(data);
+    })
+    .catch((err) => {
+      if (err.kind === "test") {
+        return res.status(404).send({
+          message: "Message not found with id " + req.params.messageId,
+        });
+      }
+      return res.status(500).send({
+        message: "Error retrieving message with id " + req.params.messageId,
+      });
+    });
+};
+exports.findme = (req, res) => {
+  ApInst.findOne({ message: req.body.message})
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: "Message not found  " + req.params.message,
         });
       }
       res.send(data);
@@ -60,7 +83,7 @@ exports.findOne = (req, res) => {
 
 // Update a message identified by the messageId in the request
 exports.update = (req, res) => {
-  ApInst.findByIdAndUpdate(
+  ApInst.findbyIdAndUpdate(
     req.params.messageId,
     {
       message: req.body.message,
